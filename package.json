@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "eslint": "eslint --cache --fix .",
+    "prettier": "prettier --write .",
     "preview": "vite preview"
   },
   "dependencies": {

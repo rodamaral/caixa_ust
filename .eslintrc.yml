@@ -7,6 +7,7 @@ extends:
   - plugin:react/recommended
   - plugin:@typescript-eslint/recommended
 ignorePatterns:
+  - build/*
   - dist/*
 overrides: []
 parser: '@typescript-eslint/parser'

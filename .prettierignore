@@ -1,0 +1,7 @@
+# Artifacts:
+build
+dist
+
+# Automatically generated files:
+.husky
+pnpm-lock.yaml
