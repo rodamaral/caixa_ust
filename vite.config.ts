@@ -1,4 +1,8 @@
+/// <reference types="vitest" />
+/// <reference types="vite/client" />
+
 import react from '@vitejs/plugin-react'
+import path from 'path'
 import type { Plugin } from 'vite'
 import { defineConfig } from 'vite'
 import type { Adapter } from 'vite-plugin-mix'
@@ -25,4 +29,17 @@ export default defineConfig({
       handler: './backend/app.ts',
     }),
   ],
+  resolve: {
+    alias: {
+      '~': path.resolve(__dirname, 'frontend'),
+    },
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './frontend/setup-vitest.ts',
+    // you might want to disable it, if you don't have tests that rely on CSS
+    // since parsing CSS is slow
+    // css: true,
+  },
 })
