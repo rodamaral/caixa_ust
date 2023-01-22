@@ -1,4 +1,23 @@
 import { Router } from 'express'
+import { User } from 'shared/types'
+
+const users: User[] = [
+  {
+    id: 1,
+    name: 'user1',
+    permissions: ['relatorio'],
+  },
+  {
+    id: 2,
+    name: 'user2',
+    permissions: ['macrocelula'],
+  },
+  {
+    id: 3,
+    name: 'user3',
+    permissions: ['relatorio', 'solicitacao', 'macrocelula'],
+  },
+]
 
 const router = Router()
 
@@ -15,11 +34,12 @@ router.post('/login', function (req, res) {
   const session = req.session
 
   // TODO
-  if (username === 'admin' && password === 'admin') {
-    session.user = { id: 1, name: username, permissions: ['RELATORIO'] }
+  const user = users.find(({ name }) => name === username)
+  if (user /* && password */) {
+    session.user = user
     res
       .status(201)
-      .json({ username, success: true, sessionID: req.sessionID, session })
+      .json({ ...user, success: true, sessionID: req.sessionID, session })
   }
   res.status(401).json({ success: false })
 })
