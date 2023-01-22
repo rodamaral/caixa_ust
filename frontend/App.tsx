@@ -6,7 +6,13 @@ import { LoginPage } from './pages/Login.page'
 import { PortalPage } from './pages/Portal.page'
 
 export function App() {
-  const { user } = useAuth()
+  const { user, fetching } = useAuth()
+  console.log({ user, fetching })
+
+  // TODO: loading indicator
+  if (fetching) {
+    return <h1>loading (undetermined)</h1>
+  }
 
   return (
     <Routes>

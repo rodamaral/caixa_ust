@@ -1,33 +1,46 @@
 import { useState } from 'react'
-import reactLogo from '../assets/react.svg'
+import { useAuth } from '~/AuthProvider'
 
 export const PortalPage = () => {
   const [count, setCount] = useState(0)
+  const {
+    user: { name, permissions },
+  } = useAuth()
+
+  const onFetch = async () => {
+    try {
+      const res = await fetch('/api/test')
+      if (!res.ok) {
+        console.error(res)
+        throw new Error('res not ok')
+      }
+      console.log(res.ok)
+      const json = await res.json()
+      console.log(json)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <div>
       <h1>Tela protegida do portal</h1>
+      <p>Name: {name}</p>
+      <p>Permissoes:</p>
+      <ul>
+        {permissions.map((p) => (
+          <li key={p}>{p}</li>
+        ))}
+      </ul>
 
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
       <h1>Vite + React</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+
+        <button onClick={onFetch}>fetch</button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
   )
 }
