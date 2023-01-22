@@ -21,6 +21,6 @@
       "~/*": ["./frontend/*"]
     }
   },
-  "include": ["frontend", "backend"],
+  "include": ["frontend", "backend", "shared"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

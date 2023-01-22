@@ -22,6 +22,10 @@ export const PortalPage = () => {
     }
   }
 
+  const onClickMenu = (id) => (e) => {
+    console.info(id)
+  }
+
   return (
     <div>
       <h1>Tela protegida do portal</h1>
@@ -29,7 +33,9 @@ export const PortalPage = () => {
       <p>Permissoes:</p>
       <ul>
         {permissions.map((p) => (
-          <li key={p}>{p}</li>
+          <li key={p} onClick={onClickMenu(p)}>
+            {p}
+          </li>
         ))}
       </ul>
 

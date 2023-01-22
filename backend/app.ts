@@ -8,7 +8,7 @@ import { protectedRouter } from './routes/protected'
 
 dotenv.config()
 
-const maxAge = 20 * 1000
+const maxAge = 10 * 60 * 1000
 
 const env = cleanEnv(process.env, {
   SESSION_SECRET: str(),

@@ -16,10 +16,7 @@ router.post('/login', function (req, res) {
 
   // TODO
   if (username === 'admin' && password === 'admin') {
-    session.user = { name: username, permissions: ['LER_RELATORIO'] }
-    // res.cookie('authenticated', true, {
-    //   maxAge: 20 * 1000,
-    // })
+    session.user = { id: 1, name: username, permissions: ['RELATORIO'] }
     res
       .status(201)
       .json({ username, success: true, sessionID: req.sessionID, session })

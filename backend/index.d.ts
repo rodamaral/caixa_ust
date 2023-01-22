@@ -1,7 +1,8 @@
 import 'express-session'
+import { User } from 'shared/types'
 
 declare module 'express-session' {
   interface SessionData {
-    user: { name: string; permissions: unknown[] }
+    user: User
   }
 }

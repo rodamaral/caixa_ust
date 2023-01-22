@@ -5,6 +5,7 @@ import {
   useEffect,
   useState,
 } from 'react'
+import { User } from 'shared/types'
 import { getCookie } from './utils'
 
 /**
@@ -20,11 +21,6 @@ const fakeAuthProvider = {
     fakeAuthProvider.isAuthenticated = false
     setTimeout(callback, 100)
   },
-}
-
-interface User {
-  name: string
-  permissions: string[]
 }
 
 interface AuthContextType {
