@@ -18,12 +18,14 @@ export function App() {
     <Routes>
       <Route
         index
+        path="/*"
         element={
           <ProtectedRoute isAllowed={!!user}>
             <PortalPage />
           </ProtectedRoute>
         }
       />
+
       <Route path="login" element={<LoginPage />} />
     </Routes>
   )
