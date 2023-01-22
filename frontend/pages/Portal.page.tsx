@@ -13,27 +13,43 @@ export const PortalPage = () => {
     <div>
       <h1>Tela protegida do portal</h1>
       <p>Name: {name}</p>
-      <p>Permissoes:</p>
-      <ul>
-        {permissions.map((permission) => (
-          <li key={permission}>
-            <NavLink
-              to={`menu/${permission}`}
-              className={({ isActive, isPending }) =>
-                isActive ? 'active' : isPending ? 'pending' : ''
-              }
-            >
-              menu/{permission}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
 
-      <Routes>
-        <Route path="menu/relatorio" element={<ReportPage />} />
-        <Route path="menu/solicitacao" element={<SolicitationPage />} />
-        <Route path="menu/macrocelula" element={<Macrocell />} />
-      </Routes>
+      <div
+        style={{
+          border: '4px solid blue',
+          display: 'flex',
+          justifyContent: 'flex-start',
+        }}
+      >
+        <aside>
+          <nav>
+            <ol>
+              {permissions.map((permission) => (
+                <li key={permission}>
+                  <NavLink
+                    to={`menu/${permission}`}
+                    className={({ isActive, isPending }) =>
+                      isActive ? 'active' : isPending ? 'pending' : ''
+                    }
+                  >
+                    menu/{permission}
+                  </NavLink>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </aside>
+
+        <main>
+          <Routes>
+            <Route path="menu/relatorio" element={<ReportPage />} />
+            <Route path="menu/solicitacao" element={<SolicitationPage />} />
+            <Route path="menu/macrocelula" element={<Macrocell />} />
+            <Route path="menu/*" element={<Macrocell />} />
+            <Route path="*" element={<Macrocell />} />
+          </Routes>
+        </main>
+      </div>
     </div>
   )
 }
