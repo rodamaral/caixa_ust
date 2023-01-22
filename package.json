@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "NODE_ENV=development vite",
     "build": "tsc && vite build",
     "eslint": "eslint --cache --fix .",
     "prettier": "prettier --write .",
@@ -14,6 +14,8 @@
   },
   "dependencies": {
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "morgan": "^1.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.7.0"
@@ -24,6 +26,8 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/express": "^4.17.15",
+    "@types/express-session": "^1.17.5",
+    "@types/morgan": "^1.9.4",
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
