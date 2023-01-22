@@ -1,32 +1,36 @@
+import * as dotenv from 'dotenv'
+import { cleanEnv, str } from 'envalid'
 import express from 'express'
 import session from 'express-session'
 import morgan from 'morgan'
 import { authRouter } from './routes/auth'
 import { protectedRouter } from './routes/protected'
 
+dotenv.config()
+
+const maxAge = 20 * 1000
+
+const env = cleanEnv(process.env, {
+  SESSION_SECRET: str(),
+})
+
 const app = express()
 
 app.use(express.json())
 
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.DEV) {
   app.use(morgan('dev'))
 }
 app.use(morgan(':method :url :status :response-time ms - :res[content-length]'))
 
-declare module 'express-session' {
-  interface SessionData {
-    user: { name: string; permission: unknown[] }
-  }
-}
-
 app.use(
   session({
-    secret: 'MY_SECRET_s3#<.Fe$=+', // TODO: create an actual session secret
+    secret: env.SESSION_SECRET, // TODO: create an actual session secret
     resave: false, // FIXME: depends on store
     saveUninitialized: false, // TODO
     rolling: true,
     cookie: {
-      maxAge: 20 * 1000,
+      maxAge,
       httpOnly: true,
     },
   })
@@ -37,7 +41,7 @@ app.use((req, res, next) => {
     // this allows checking if a session exists from client side JavaScript
     // as the session cookie is protected with httpOnly
     res.cookie('authenticated', true, {
-      maxAge: 20 * 1000,
+      maxAge,
     })
   }
   next()

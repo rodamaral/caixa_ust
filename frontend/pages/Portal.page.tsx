@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { useAuth } from '~/AuthProvider'
+import { useAuth2 } from '~/AuthProvider'
 
 export const PortalPage = () => {
   const [count, setCount] = useState(0)
   const {
     user: { name, permissions },
-  } = useAuth()
+  } = useAuth2()
 
   const onFetch = async () => {
     try {

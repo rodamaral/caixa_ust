@@ -90,3 +90,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   return useContext(AuthContext)
 }
+
+export function useAuth2() {
+  const { user, ...rest } = useContext(AuthContext)
+  if (user === null) {
+    throw new Error('user is null')
+  }
+
+  return { ...rest, user }
+}
