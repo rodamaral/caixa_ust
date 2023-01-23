@@ -1,0 +1,27 @@
+.aside {
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+ol li {
+  list-style: none;
+}
+
+ol {
+  display: flex;
+  flex-direction: column;
+  margin: 1em;
+  align-items: stretch;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 1em;
+  background-color: #b4d6bd;
+  border-radius: 5px;
+  padding: 4px;
+}
+
+li a {
+  color: black;
+}

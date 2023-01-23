@@ -1,5 +1,6 @@
-import { NavLink, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { useAuth2 } from '~/AuthProvider'
+import { Aside } from '~/components/Aside'
 import { Macrocell } from './Macrocell.page'
 import { ReportPage } from './Report.page'
 import { SolicitationPage } from './Solicitation.page'
@@ -16,29 +17,13 @@ export const PortalPage = () => {
 
       <div
         style={{
-          border: '4px solid blue',
+          // border: '4px solid blue',
           display: 'flex',
           justifyContent: 'flex-start',
+          gap: 32,
         }}
       >
-        <aside>
-          <nav>
-            <ol>
-              {permissions.map((permission) => (
-                <li key={permission}>
-                  <NavLink
-                    to={`menu/${permission}`}
-                    className={({ isActive, isPending }) =>
-                      isActive ? 'active' : isPending ? 'pending' : ''
-                    }
-                  >
-                    menu/{permission}
-                  </NavLink>
-                </li>
-              ))}
-            </ol>
-          </nav>
-        </aside>
+        <Aside permissions={permissions} />
 
         <main>
           <Routes>

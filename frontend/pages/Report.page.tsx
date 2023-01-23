@@ -1,58 +1,63 @@
+import { DataOmitTotal, ReportTable } from '~/components/ReportTable'
+
+const defaultData: DataOmitTotal[] = [
+  {
+    coordination: 'Coordenação 1',
+    month1: 20,
+    month2: 45,
+    month3: 31,
+    month4: 1,
+    month5: 1,
+    month6: 1,
+    month7: 1,
+    month8: 1,
+    month9: 1,
+    month10: 1,
+    month11: 1,
+    month12: 1,
+  },
+  {
+    coordination: 'Coordenação 2',
+    month1: 1,
+    month2: 2,
+    month3: 3,
+    month4: 4,
+    month5: 5,
+    month6: 6,
+    month7: 7,
+    month8: 8,
+    month9: 9,
+    month10: 10,
+    month11: 11,
+    month12: 12,
+  },
+  {
+    coordination: 'Terceira',
+    month1: 1,
+    month2: 0,
+    month3: 4,
+    month4: 5,
+    month5: 1,
+    month6: 2,
+    month7: 4,
+    month8: 8,
+    month9: 13,
+    month10: 17,
+    month11: 22,
+    month12: 33,
+  },
+]
+
 export const ReportPage = () => {
   return (
     <div style={{ border: '2px solid red' }}>
-      <h2>Report</h2>
+      <h1>Relatório</h1>
 
-      <table>
-        <tr>
-          <th>Coordenação</th>
-          <th>Jan/2023</th>
-          <th>Fev/2023</th>
-          <th>Mar/2023</th>
-          <th>Abr/2023</th>
-          <th>Mai/2023</th>
-          <th>Jun/2023</th>
-          <th>Jul/2023</th>
-          <th>Ago/2023</th>
-          <th>Set/2023</th>
-          <th>Out/2023</th>
-          <th>Nov/2023</th>
-          <th>Dez/2023</th>
-          <th>Total</th>
-        </tr>
-        <tr>
-          <td>Coordenação 1</td>
-          <td>20</td>
-          <td>45</td>
-          <td>31</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>86</td>
-        </tr>
-        <tr>
-          <td>Coordenação 2</td>
-          <td>10</td>
-          <td>35</td>
-          <td>41</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>86</td>
-        </tr>
-      </table>
+      <p>
+        UST&apos;s solicitadas em cada mês - Matrix &quot;Coordenação x
+        Mês&quot;
+      </p>
+      <ReportTable data={defaultData} />
     </div>
   )
 }
