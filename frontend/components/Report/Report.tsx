@@ -1,21 +1,47 @@
 import { useMemo } from 'react'
-import { DataOmitTotal } from 'shared/types'
+import { Months, Report as ReportType } from 'shared/types'
 import { months, ReportTable } from '~/components/ReportTable'
 import { PieGraph } from '~/components/ReportTable/Pie'
 
+type NestedRecord = Record<
+  string,
+  Record<Months, number> & { coordination: string }
+>
+
 interface ReportProps {
-  data: DataOmitTotal[]
+  data: ReportType[]
+}
+
+const normalize = (data: ReportType[]) => {
+  const byCoordination: NestedRecord = {}
+  data.forEach(({ ust, coordination, month }) => {
+    byCoordination[coordination] = byCoordination[coordination] ?? {
+      coordination,
+    }
+    byCoordination[coordination][month] = ust
+  })
+  return Object.values(byCoordination)
 }
 
 export const Report = ({ data }: ReportProps) => {
+  const byCoordination: NestedRecord = {}
+  data.forEach(({ ust, coordination, month }) => {
+    byCoordination[coordination] = byCoordination[coordination] ?? {
+      coordination,
+    }
+    byCoordination[coordination][month] = ust
+  })
+
+  const data2 = normalize(data)
   const dataWithTotals = useMemo(
     () =>
-      data.map((row) => ({
+      data2.map((row) => ({
         ...row,
-        total: months.reduce((acc, val) => (row[val.key] ?? 0) + acc, 0),
+        total: months.reduce((acc, val) => (row[`${val.label}`] ?? 0) + acc, 0),
       })),
-    [data]
+    [data2]
   )
+  console.log('dataWithTotals', dataWithTotals)
 
   return (
     <div style={{ border: '2px solid red' }}>

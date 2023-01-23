@@ -1,5 +1,24 @@
 export const maxAge = 10 * 60 * 1000
 
+export const ustData = [
+  {
+    month: 'Jan/2023',
+    coordination: 'Coord3',
+    macrocell: 'Macro',
+    cell: 'Célula',
+    activity: 'Atividade',
+    UST: 310,
+  },
+  {
+    month: 'Fev/2023',
+    coordination: 'Coord3',
+    macrocell: 'Macro',
+    cell: 'Célula',
+    activity: 'Atividade',
+    UST: 250,
+  },
+]
+
 export const columns = [
   'Macro Serviço',
   'Macrocélula',

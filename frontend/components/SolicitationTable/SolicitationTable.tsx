@@ -4,50 +4,37 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { Data, Month, MONTHS } from '../../../shared/types'
-import styles from './ReportTable.module.scss'
+import { UstTable } from 'shared/types'
+import styles from './SolicitationTable.module.scss'
 
-export const months: Month[] = [
-  { label: 'Jan/2023' },
-  { label: 'Fev/2023' },
-  { label: 'Mar/2023' },
-  { label: 'Abr/2023' },
-  { label: 'Mai/2023' },
-  { label: 'Jun/2023' },
-  { label: 'Jul/2023' },
-  { label: 'Ago/2023' },
-  { label: 'Set/2023' },
-  { label: 'Out/2023' },
-  { label: 'Nov/2023' },
-  { label: 'Dez/2023' },
-]
-
-const columnHelper = createColumnHelper<Data>()
-
-const monthsColumns = MONTHS.map((label) =>
-  columnHelper.accessor(label, {
-    header: () => label,
-    cell: (info) => info.renderValue(),
-  })
-)
+const columnHelper = createColumnHelper<UstTable>()
 
 const columns = [
+  columnHelper.accessor('month', {
+    header: 'Mês/Ano',
+  }),
   columnHelper.accessor('coordination', {
     header: 'Coordenação',
-    cell: (info) => info.getValue(),
   }),
-  ...monthsColumns,
-  columnHelper.accessor('total', {
-    header: 'Total',
-    cell: (info) => info.getValue(),
+  columnHelper.accessor('macrocell', {
+    header: 'Macrocélula',
+  }),
+  columnHelper.accessor('cell', {
+    header: 'Célula',
+  }),
+  columnHelper.accessor('activity', {
+    header: 'Atividade',
+  }),
+  columnHelper.accessor('UST', {
+    header: 'UST',
   }),
 ]
 
-interface ReportTableProps {
-  data: Data[]
+interface SolicitationProps {
+  data: UstTable[]
 }
 
-export const ReportTable = ({ data }: ReportTableProps) => {
+export const SolicitationTable = ({ data }: SolicitationProps) => {
   const table = useReactTable({
     data,
     columns,
@@ -59,6 +46,8 @@ export const ReportTable = ({ data }: ReportTableProps) => {
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
+            <th>#</th>
+
             {headerGroup.headers.map((header) => (
               <th key={header.id}>
                 {header.isPlaceholder
@@ -72,9 +61,12 @@ export const ReportTable = ({ data }: ReportTableProps) => {
           </tr>
         ))}
       </thead>
+
       <tbody>
-        {table.getRowModel().rows.map((row) => (
+        {table.getRowModel().rows.map((row, index) => (
           <tr key={row.id}>
+            <td>{index}</td>
+
             {row.getVisibleCells().map((cell) => (
               <td key={cell.id}>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}

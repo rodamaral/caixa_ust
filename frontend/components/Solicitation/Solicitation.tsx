@@ -1,9 +1,9 @@
 import { ChangeEventHandler, useMemo, useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { Activity, Cell } from 'shared/types'
-import { months } from '~/components/ReportTable'
 import { round } from '~/utils'
-import { coordinations } from '../../../backend/constants'
+import { coordinations, ustData } from '../../../backend/constants'
+import { Activity, Cell, MONTHS } from '../../../shared/types'
+import { SolicitationTable } from '../SolicitationTable'
 
 type MaybeNumber = number | undefined
 const calcUST = (
@@ -41,10 +41,7 @@ interface SolicitationProps {
   cells: Cell[]
 }
 
-export const Solicitation = ({
-  activities,
-  cells: cells2,
-}: SolicitationProps) => {
+export const Solicitation = ({ activities, cells }: SolicitationProps) => {
   const [month, setMonth] = useState<string>()
   const [coordination, setCoordination] = useState<string>()
   const [macrocell, setMacrocell] = useState<number>()
@@ -59,8 +56,8 @@ export const Solicitation = ({
 
   const disabled = month === undefined
 
-  const macros = Object.values(
-    cells2.reduce((acc, val) => {
+  const macrocells = Object.values(
+    cells.reduce((acc, val) => {
       const id = val.macroId
       if (!acc[id]) {
         acc[id] = val
@@ -68,8 +65,8 @@ export const Solicitation = ({
       return acc
     }, {} as Record<string, Cell>)
   )
-  const cells3 = Object.values(
-    cells2.reduce((acc, val) => {
+  const cellsOfMacrocell = Object.values(
+    cells.reduce((acc, val) => {
       if (!acc[val.cellId]) {
         if (macrocell === val.macroId) {
           acc[val.cellId] = val
@@ -165,9 +162,9 @@ export const Solicitation = ({
           Mês/Ano
           <select name="month" onChange={onChangeMonth} value={month}>
             <option value="">Escolha uma opção</option>
-            {months.map(({ key, label }) => (
-              <option key={key} value={key}>
-                {label}/2023
+            {MONTHS.map((label) => (
+              <option key={label} value={label}>
+                {label}
               </option>
             ))}
           </select>
@@ -199,7 +196,7 @@ export const Solicitation = ({
             disabled={disabled}
           >
             <option value="">Escolha uma opção</option>
-            {macros.map(({ macroId, macroName }) => (
+            {macrocells.map(({ macroId, macroName }) => (
               <option key={macroId} value={macroId}>
                 {macroName}
               </option>
@@ -216,7 +213,7 @@ export const Solicitation = ({
             disabled={disabled || !macrocell}
           >
             <option value="">Escolha uma opção</option>
-            {cells3.map(({ cellId, cellName }) => (
+            {cellsOfMacrocell.map(({ cellId, cellName }) => (
               <option key={cellId} value={cellId}>
                 {cellName}
               </option>
@@ -328,35 +325,7 @@ export const Solicitation = ({
       </div>
 
       <div>
-        <table>
-          <tr>
-            <th>#</th>
-            <th>Mês/Ano</th>
-            <th>Coordenação</th>
-            <th>Macrocélula</th>
-            <th>Célula</th>
-            <th>Atividade</th>
-            <th>UST</th>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>Jan/2023</td>
-            <td>Coord1</td>
-            <td>Macroc1</td>
-            <td>Célula 1</td>
-            <td>Atividade 1</td>
-            <td>310</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Jan/2023</td>
-            <td>Coord2</td>
-            <td>Macroc2</td>
-            <td>Célula 2</td>
-            <td>Atividade 2</td>
-            <td>250</td>
-          </tr>
-        </table>
+        <SolicitationTable data={ustData} />
       </div>
 
       <div>
