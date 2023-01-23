@@ -1,15 +1,20 @@
-import { Cell, Pie, PieChart, PieLabel } from 'recharts'
-import { Data } from './ReportTable'
-
-// const data = [
-//   { name: 'Group A', value: 400 },
-//   { name: 'Group B', value: 300 },
-//   { name: 'Group C', value: 300 },
-// ]
+import { Cell, Pie, PieChart } from 'recharts'
+import { Data } from 'shared/types'
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
 
 const RADIAN = Math.PI / 180
+
+interface Arg {
+  cx: number
+  cy: number
+  name: string
+  midAngle: number
+  innerRadius: number
+  outerRadius: number
+  percent: number
+  index: number
+}
 
 const renderCustomizedLabel = ({
   cx,
@@ -19,8 +24,7 @@ const renderCustomizedLabel = ({
   innerRadius,
   outerRadius,
   percent,
-  index,
-}: PieLabel<any>) => {
+}: Arg) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5
   const x = cx + radius * Math.cos(-midAngle * RADIAN)
   const y = cy + radius * Math.sin(-midAngle * RADIAN)
@@ -62,7 +66,7 @@ export const PieGraph = ({ data }: PieGraphProps) => {
         dataKey="value"
       >
         {totals.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
         ))}
       </Pie>
     </PieChart>
