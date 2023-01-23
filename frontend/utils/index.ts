@@ -5,3 +5,5 @@ export function getCookie(name: string) {
   )
   return match ? match[1] : null
 }
+
+export const round = (number: number) => Math.round(number * 100) / 100
