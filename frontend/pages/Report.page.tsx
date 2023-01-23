@@ -1,4 +1,6 @@
-import { DataOmitTotal, ReportTable } from '~/components/ReportTable'
+import { useMemo } from 'react'
+import { DataOmitTotal, months, ReportTable } from '~/components/ReportTable'
+import { PieGraph } from '~/components/ReportTable/Pie'
 
 const defaultData: DataOmitTotal[] = [
   {
@@ -49,15 +51,30 @@ const defaultData: DataOmitTotal[] = [
 ]
 
 export const ReportPage = () => {
+  const data = useMemo(
+    () =>
+      defaultData.map((row) => ({
+        ...row,
+        total: months.reduce((acc, val) => (row[val.key] ?? 0) + acc, 0),
+      })),
+    [defaultData]
+  )
+
   return (
     <div style={{ border: '2px solid red' }}>
       <h1>Relatório</h1>
+      <div>
+        <p>
+          UST&apos;s solicitadas em cada mês - Matrix &quot;Coordenação x
+          Mês&quot;
+        </p>
+        <ReportTable data={data} />
+      </div>
 
-      <p>
-        UST&apos;s solicitadas em cada mês - Matrix &quot;Coordenação x
-        Mês&quot;
-      </p>
-      <ReportTable data={defaultData} />
+      <div>
+        <p>Quantitativo total por coordenação</p>
+        <PieGraph data={data} />
+      </div>
     </div>
   )
 }

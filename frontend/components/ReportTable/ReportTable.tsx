@@ -4,10 +4,9 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useMemo } from 'react'
 import styles from './ReportTable.module.scss'
 
-const months: {
+export const months: {
   label: string
   key: `month${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12}`
 }[] = [
@@ -27,7 +26,7 @@ const months: {
 
 const columnHelper = createColumnHelper<Data>()
 
-type Data = {
+export type Data = {
   coordination: string
   month1: number
   month2: number
@@ -66,18 +65,19 @@ const columns = [
 ]
 
 interface ReportTableProps {
-  data: DataOmitTotal[]
+  data: Data[]
 }
 
 export const ReportTable = ({ data: defaultData }: ReportTableProps) => {
-  const data = useMemo(
-    () =>
-      defaultData.map((row) => ({
-        ...row,
-        total: months.reduce((acc, val) => (row[val.key] ?? 0) + acc, 0),
-      })),
-    [defaultData]
-  )
+  const data = defaultData
+  //   const data = useMemo(
+  //   () =>
+  //     defaultData.map((row) => ({
+  //       ...row,
+  //       total: months.reduce((acc, val) => (row[val.key] ?? 0) + acc, 0),
+  //     })),
+  //   [defaultData]
+  // )
 
   const table = useReactTable({
     data,
