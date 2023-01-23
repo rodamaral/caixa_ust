@@ -49,7 +49,17 @@ export type UstTable = {
   UST: number
 }
 
+export type UstTableIds = {
+  month: string
+  coordination: string
+  macrocell: number
+  cell: number
+  activity: number
+  UST: number
+}
+
 export interface Activity {
+  id: number
   name: string
   description: string
 }
