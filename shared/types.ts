@@ -32,3 +32,10 @@ export interface Activity {
   name: string
   description: string
 }
+
+export interface Cell {
+  macroId: number
+  macroName: string
+  cellId: number
+  cellName: string
+}
