@@ -1,9 +1,10 @@
 import { ChangeEventHandler, useMemo, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { round } from '~/utils'
-import { coordinations, ustData } from '../../../backend/constants'
-import { Activity, Cell, MONTHS } from '../../../shared/types'
+import { coordinations } from '../../../backend/constants'
+import { Activity, Cell, MONTHS, UstTableIds } from '../../../shared/types'
 import { SolicitationTable } from '../SolicitationTable'
+import { SaveDialog } from './SaveDialog'
 
 type MaybeNumber = number | undefined
 const calcUST = (
@@ -42,11 +43,12 @@ interface SolicitationProps {
 }
 
 export const Solicitation = ({ activities, cells }: SolicitationProps) => {
+  const [rows, setRows] = useState<UstTableIds[]>([])
   const [month, setMonth] = useState<string>()
   const [coordination, setCoordination] = useState<string>()
   const [macrocell, setMacrocell] = useState<number>()
   const [cell, setCell] = useState<number>()
-  const [activityName, setActivityName] = useState<string>()
+  const [activity, setActivity] = useState<number>()
   const [complexity, setComplexity] = useState<string>()
   const [weighting, setWeighting] = useState<number>()
   const [effort, setEffort] = useState<number>()
@@ -55,6 +57,22 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
   const [nonWorkingDays, setNonWorkingDays] = useState<number>()
 
   const disabled = month === undefined
+
+  // TEST
+  const selectedCellComplete = cells.find(({ cellId }) => cellId === cell)
+  console.log('comnplete sle cells', selectedCellComplete)
+
+  // array
+  const rowsComplete = rows.map(({ cell, activity, ...rest }) => {
+    const selectedCellComplete = cells.find(({ cellId }) => cellId === cell)
+    const activityComplete = activities.find(({ id }) => id === activity)
+    return {
+      ...rest,
+      cell: selectedCellComplete?.cellName ?? '',
+      macrocell: selectedCellComplete?.macroName ?? '',
+      activity: activityComplete?.name ?? '',
+    }
+  })
 
   const macrocells = Object.values(
     cells.reduce((acc, val) => {
@@ -76,12 +94,15 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
     }, {} as Record<string, Cell>)
   )
 
-  const selectedActivity = activities.find(({ name }) => name === activityName)
+  const selectedActivity = activities.find(({ id }) => id === activity)
   const description = selectedActivity?.description
   const ust = useMemo(
     () => calcUST(weighting, effort, simultaneity, workingDays, nonWorkingDays),
     [weighting, effort, simultaneity, workingDays, nonWorkingDays]
   )
+
+  const enableInclude =
+    activity && cell && coordination && month && ust && macrocell
 
   const onChangeMonth: ChangeEventHandler<HTMLSelectElement> = (e) => {
     setMonth(e.target.value || undefined)
@@ -101,7 +122,7 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
   }
 
   const onChangeActivityName: ChangeEventHandler<HTMLSelectElement> = (e) => {
-    setActivityName(e.target.value || undefined)
+    setActivity(parseInt(e.target.value) || undefined)
   }
 
   const onChangeComplexity: ChangeEventHandler<HTMLSelectElement> = (e) => {
@@ -129,21 +150,44 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
   }
 
   const onInclude = () => {
-    console.log('month', month)
-    console.log('coordination', coordination)
-    console.log('cell', cell)
-    console.log('macrocell', macrocell)
-    console.log('activityName', activityName)
-    console.log('complexity', complexity)
-    console.log('weighting', weighting)
-    console.log('effort', effort)
-    console.log('simultaneity', simultaneity)
-    console.log('workingDays', workingDays)
-    console.log('nonWorkingDays', nonWorkingDays)
+    if (activity && cell && coordination && month && ust && macrocell) {
+      setRows((rows) => [
+        ...rows,
+        {
+          activity,
+          cell,
+          coordination,
+          macrocell,
+          month,
+          UST: ust,
+        },
+      ])
+    }
   }
 
-  const onSave = () => {
-    alert('save')
+  const onSave = async () => {
+    try {
+      const res = await fetch('/api/solicitation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          month,
+          cellId: 2,
+          activityId: activity,
+          coordination,
+          ust,
+        }),
+      })
+      if (!res.ok) {
+        console.error(res)
+        throw new Error('res not ok')
+      }
+      console.log('success')
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -227,12 +271,12 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
           <select
             name="activity-name"
             onChange={onChangeActivityName}
-            value={activityName}
+            value={activity}
             disabled={disabled}
           >
             <option value="">Escolha uma opção</option>
-            {activities.map(({ name }) => (
-              <option key={name} value={name}>
+            {activities.map(({ id, name }) => (
+              <option key={id} value={id}>
                 {name}
               </option>
             ))}
@@ -319,17 +363,19 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
       </div>
 
       <div>
-        <button onClick={onInclude}>Incluir</button>
+        <button onClick={onInclude} disabled={!enableInclude}>
+          Incluir
+        </button>
         UST: {ust ?? 'a computar'}
       </div>
 
       <div>
-        <SolicitationTable data={ustData} />
+        <SolicitationTable data={rowsComplete} />
       </div>
 
       <div>
         <span>Total UST&apos;s: 560</span>
-        <button onClick={onSave}>Salvar</button>
+        <SaveDialog disable={rows.length === 0} onSave={onSave} />
       </div>
     </form>
   )
