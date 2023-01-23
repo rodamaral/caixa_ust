@@ -1,18 +1,11 @@
-import * as dotenv from 'dotenv'
-import { cleanEnv, str } from 'envalid'
 import express from 'express'
 import session from 'express-session'
 import morgan from 'morgan'
+import { env } from './env'
 import { authRouter } from './routes/auth'
 import { protectedRouter } from './routes/protected'
 
-dotenv.config()
-
 const maxAge = 10 * 60 * 1000
-
-const env = cleanEnv(process.env, {
-  SESSION_SECRET: str(),
-})
 
 const app = express()
 
