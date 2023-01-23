@@ -366,10 +366,13 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
       </div>
 
       <div className={styles.row}>
-        <button onClick={onInclude} disabled={!enableInclude}>
+        <button
+          onClick={onInclude}
+          disabled={!enableInclude}
+          className={styles.button}
+        >
           Incluir
         </button>
-        UST: {ust ?? 'a computar'}
       </div>
 
       <div className={styles.row}>

@@ -35,3 +35,13 @@
   max-width: 400px;
   max-height: 232px;
 }
+
+.button {
+  // all: unset;
+  background-color: #99ff99;
+
+  &:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+  }
+}
