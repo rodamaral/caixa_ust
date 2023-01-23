@@ -51,14 +51,14 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
   const [cell, setCell] = useState<number>()
   const [activity, setActivity] = useState<number>()
   const [complexity, setComplexity] = useState<string>()
-  const [weighting, setWeighting] = useState<number>()
-  const [effort, setEffort] = useState<number>()
-  const [simultaneity, setSimultaneity] = useState<number>()
-  const [workingDays, setWorkingDays] = useState<number>()
-  const [nonWorkingDays, setNonWorkingDays] = useState<number>()
+  const [weighting, setWeighting] = useState<number>(0)
+  const [effort, setEffort] = useState<number>(0)
+  const [simultaneity, setSimultaneity] = useState<number>(0)
+  const [workingDays, setWorkingDays] = useState<number>(0)
+  const [nonWorkingDays, setNonWorkingDays] = useState<number>(0)
   const [loading, setLoading] = useState(false)
 
-  const disabled = month === undefined
+  const disabled = !month
 
   const rowsComplete = rows.map(({ cell, activity, ...rest }) => {
     const selectedCellComplete = cells.find(({ cellId }) => cellId === cell)
@@ -112,7 +112,7 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
 
   const onChangeMacrocell: ChangeEventHandler<HTMLSelectElement> = (e) => {
     setMacrocell(parseInt(e.target.value) || undefined)
-    setCell(undefined)
+    setCell(0)
   }
 
   const onChangeCell: ChangeEventHandler<HTMLSelectElement> = (e) => {
@@ -160,6 +160,7 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
           UST: ust,
         },
       ])
+      setMonth('')
     }
   }
 
@@ -178,17 +179,17 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
         throw new Error('res not ok')
       }
       setRows([])
-      setMonth(undefined)
-      setCoordination(undefined)
-      setMacrocell(undefined)
-      setCell(undefined)
-      setActivity(undefined)
-      setComplexity(undefined)
-      setWeighting(undefined)
-      setEffort(undefined)
-      setSimultaneity(undefined)
-      setWorkingDays(undefined)
-      setNonWorkingDays(undefined)
+      setMonth('')
+      setCoordination('')
+      setMacrocell(0)
+      setCell(0)
+      setActivity(0)
+      setComplexity('')
+      setWeighting(0)
+      setEffort(0)
+      setSimultaneity(0)
+      setWorkingDays(0)
+      setNonWorkingDays(0)
     } catch (error) {
       console.error(error)
     } finally {
