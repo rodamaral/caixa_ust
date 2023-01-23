@@ -12,6 +12,11 @@ button {
   all: unset;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  background-color: #ccc !important;
+}
+
 .AlertDialogOverlay {
   background-color: var(--blackA9);
   position: fixed;
