@@ -1,11 +1,9 @@
 import express from 'express'
-import session from 'express-session'
 import morgan from 'morgan'
-import { env } from './env'
+import { maxAge } from './constants'
 import { authRouter } from './routes/auth'
 import { protectedRouter } from './routes/protected'
-
-const maxAge = 10 * 60 * 1000
+import { sessionMiddleware } from './session'
 
 const app = express()
 
@@ -16,18 +14,7 @@ if (import.meta.env.DEV) {
 }
 app.use(morgan(':method :url :status :response-time ms - :res[content-length]'))
 
-app.use(
-  session({
-    secret: env.SESSION_SECRET, // TODO: create an actual session secret
-    resave: false, // FIXME: depends on store
-    saveUninitialized: false, // TODO
-    rolling: true,
-    cookie: {
-      maxAge,
-      httpOnly: true,
-    },
-  })
-)
+app.use(sessionMiddleware)
 
 app.use((req, res, next) => {
   if (req.session.user) {

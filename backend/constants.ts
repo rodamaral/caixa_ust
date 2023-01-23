@@ -1,3 +1,5 @@
+export const maxAge = 10 * 60 * 1000
+
 export const columns = [
   'Macro Serviço',
   'Macrocélula',
