@@ -27,3 +27,8 @@ export type Data = {
 }
 
 export type DataOmitTotal = Omit<Data, 'total'>
+
+export interface Activity {
+  name: string
+  description: string
+}
