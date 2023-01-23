@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { Months, Report as ReportType } from 'shared/types'
 import { months, ReportTable } from '~/components/ReportTable'
 import { PieGraph } from '~/components/ReportTable/Pie'
+import { round } from '~/utils'
 
 type NestedRecord = Record<
   string,
@@ -37,7 +38,9 @@ export const Report = ({ data }: ReportProps) => {
     () =>
       data2.map((row) => ({
         ...row,
-        total: months.reduce((acc, val) => (row[`${val.label}`] ?? 0) + acc, 0),
+        total: round(
+          months.reduce((acc, val) => (row[`${val.label}`] ?? 0) + acc, 0)
+        ),
       })),
     [data2]
   )
