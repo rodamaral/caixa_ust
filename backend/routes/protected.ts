@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { reportRouter } from './report'
 import { testRouter } from './test'
 
 const router = Router()
@@ -12,6 +13,7 @@ router.use((req, res, next) => {
 })
 
 router.use('/test', testRouter)
+router.use('/report', reportRouter)
 
 router.get('', function (req, res) {
   console.log('top level api route (protected)')
