@@ -21,21 +21,19 @@ router.post('/login', async function (req, res) {
     .from('user')
     .where('name', '=', username)
     .first()
-  console.warn('foo', databaseUser)
-  if (!databaseUser) return res.status(401).json({ success: false })
-  const comparison = comparePasswords(password, databaseUser.password)
-  console.warn('comparison', comparison)
 
-  if (comparison) {
-    session.user = databaseUser
-    return res.status(201).json({
-      ...databaseUser,
-      success: true,
-      sessionID: req.sessionID,
-      session,
-    })
+  if (!databaseUser || !comparePasswords(password, databaseUser.password)) {
+    return res.status(401).json({ success: false })
   }
-  res.status(401).json({ success: false })
+
+  session.user = databaseUser
+  // FIXME: remove sensible data and the hashed password
+  return res.status(201).json({
+    ...databaseUser,
+    success: true,
+    sessionID: req.sessionID,
+    session,
+  })
 })
 
 // TEST: register user
