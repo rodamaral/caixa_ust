@@ -1,9 +1,9 @@
 import { ChangeEventHandler, useMemo, useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { Activity } from 'shared/types'
+import { Activity, Cell } from 'shared/types'
 import { months } from '~/components/ReportTable'
 import { round } from '~/utils'
-import { cellRelMacros, coordinations } from '../../../backend/constants'
+import { coordinations } from '../../../backend/constants'
 
 type MaybeNumber = number | undefined
 const calcUST = (
@@ -38,13 +38,17 @@ const calcUST = (
 
 interface SolicitationProps {
   activities: Activity[]
+  cells: Cell[]
 }
 
-export const Solicitation = ({ activities }: SolicitationProps) => {
+export const Solicitation = ({
+  activities,
+  cells: cells2,
+}: SolicitationProps) => {
   const [month, setMonth] = useState<string>()
   const [coordination, setCoordination] = useState<string>()
-  const [macrocell, setMacrocell] = useState<string>()
-  const [cell, setCell] = useState<string>()
+  const [macrocell, setMacrocell] = useState<number>()
+  const [cell, setCell] = useState<number>()
   const [activityName, setActivityName] = useState<string>()
   const [complexity, setComplexity] = useState<string>()
   const [weighting, setWeighting] = useState<number>()
@@ -55,12 +59,25 @@ export const Solicitation = ({ activities }: SolicitationProps) => {
 
   const disabled = month === undefined
 
-  const cellsFromSelectedMacrocell = macrocell
-    ? cellRelMacros.find((a) => a.macrocell === macrocell)
-    : undefined
-  const cells = cellsFromSelectedMacrocell
-    ? cellsFromSelectedMacrocell.cells
-    : []
+  const macros = Object.values(
+    cells2.reduce((acc, val) => {
+      const id = val.macroId
+      if (!acc[id]) {
+        acc[id] = val
+      }
+      return acc
+    }, {} as Record<string, Cell>)
+  )
+  const cells3 = Object.values(
+    cells2.reduce((acc, val) => {
+      if (!acc[val.cellId]) {
+        if (macrocell === val.macroId) {
+          acc[val.cellId] = val
+        }
+      }
+      return acc
+    }, {} as Record<string, Cell>)
+  )
 
   const selectedActivity = activities.find(({ name }) => name === activityName)
   const description = selectedActivity?.description
@@ -78,12 +95,12 @@ export const Solicitation = ({ activities }: SolicitationProps) => {
   }
 
   const onChangeMacrocell: ChangeEventHandler<HTMLSelectElement> = (e) => {
-    setMacrocell(e.target.value || undefined)
+    setMacrocell(parseInt(e.target.value) || undefined)
     setCell(undefined)
   }
 
   const onChangeCell: ChangeEventHandler<HTMLSelectElement> = (e) => {
-    setCell(e.target.value || undefined)
+    setCell(parseInt(e.target.value) || undefined)
   }
 
   const onChangeActivityName: ChangeEventHandler<HTMLSelectElement> = (e) => {
@@ -182,9 +199,9 @@ export const Solicitation = ({ activities }: SolicitationProps) => {
             disabled={disabled}
           >
             <option value="">Escolha uma opção</option>
-            {cellRelMacros.map(({ macrocell }) => (
-              <option key={macrocell} value={macrocell}>
-                {macrocell}
+            {macros.map(({ macroId, macroName }) => (
+              <option key={macroId} value={macroId}>
+                {macroName}
               </option>
             ))}
           </select>
@@ -199,9 +216,9 @@ export const Solicitation = ({ activities }: SolicitationProps) => {
             disabled={disabled || !macrocell}
           >
             <option value="">Escolha uma opção</option>
-            {cells.map((name) => (
-              <option key={name} value={name}>
-                {name}
+            {cells3.map(({ cellId, cellName }) => (
+              <option key={cellId} value={cellId}>
+                {cellName}
               </option>
             ))}
           </select>
