@@ -36,4 +36,12 @@ router.post('/login', async function (req, res) {
   })
 })
 
+router.get('/logout', async function (req, res) {
+  req.session.destroy((err) => {
+    res.redirect('/') // will always fire after session is destroyed
+  })
+
+  // return res.sendStatus(200)
+})
+
 export const authRouter = router

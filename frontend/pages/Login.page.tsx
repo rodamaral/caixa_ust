@@ -46,14 +46,46 @@ export const LoginPage = () => {
 
   return (
     <div>
-      <h1>Tela de login</h1>
+      <h1>Login</h1>
 
-      <form onSubmit={handleSubmit}>
-        Usuário
-        <input name="username" />
-        Senha
-        <input type="password" name="password" />
-        <button>Entrar</button>
+      <form
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignContent: 'center',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '1em',
+        }}
+        onSubmit={handleSubmit}
+      >
+        <label
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignContent: 'center',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '1em',
+          }}
+        >
+          Usuário
+          <input name="username" />
+        </label>
+        <label
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignContent: 'center',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          Senha
+          <input type="password" name="password" />
+        </label>
+
+        <button style={{ background: '#6666ff' }}>Entrar</button>
       </form>
     </div>
   )

@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuthWithUser } from '~/AuthProvider'
 import styles from './Aside.module.scss'
 
@@ -12,13 +12,11 @@ export const Aside = () => {
   const {
     user: { permissions },
   } = useAuthWithUser()
-  const location = useLocation()
-  // const params = useParams()
-  // console.log('location', location)
-  // console.log('params', params)
+  const navigate = useNavigate()
 
-  if (location.pathname === '/menu/solicitacao') {
-    return null
+  const onLogout = async () => {
+    await fetch('/api/auth/logout')
+    navigate('/login')
   }
 
   return (
@@ -37,6 +35,12 @@ export const Aside = () => {
               </NavLink>
             </li>
           ))}
+
+          <li>
+            <button className={styles.logout} onClick={onLogout}>
+              Sair
+            </button>
+          </li>
         </ol>
       </nav>
     </aside>
