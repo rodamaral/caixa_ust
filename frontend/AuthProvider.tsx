@@ -8,21 +8,6 @@ import {
 import { User } from 'shared/types'
 import { getCookie } from './utils'
 
-/**
- * This represents some generic auth provider API, like Firebase.
- */
-const fakeAuthProvider = {
-  isAuthenticated: false,
-  signin(callback: VoidFunction) {
-    fakeAuthProvider.isAuthenticated = true
-    setTimeout(callback, 100) // fake async
-  },
-  signout(callback: VoidFunction) {
-    fakeAuthProvider.isAuthenticated = false
-    setTimeout(callback, 100)
-  },
-}
-
 interface AuthContextType {
   user: User | null
   fetching: boolean
@@ -59,17 +44,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const signin = (newUser: User, callback: VoidFunction) => {
-    return fakeAuthProvider.signin(() => {
-      setUser(newUser)
-      callback()
-    })
+    setUser(newUser)
+    callback()
   }
 
   const signout = (callback: VoidFunction) => {
-    return fakeAuthProvider.signout(() => {
-      setUser(null)
-      callback()
-    })
+    setUser(null)
+    callback()
   }
 
   const value = { user, fetching, signin, signout }
@@ -81,7 +62,7 @@ export function useAuth() {
   return useContext(AuthContext)
 }
 
-export function useAuth2() {
+export function useAuthWithUser() {
   const { user, ...rest } = useContext(AuthContext)
   if (user === null) {
     throw new Error('user is null')

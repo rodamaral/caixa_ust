@@ -46,7 +46,7 @@ export const Report = ({ data }: ReportProps) => {
   )
 
   return (
-    <div style={{ border: '2px solid red' }}>
+    <div>
       <h1>Relatório</h1>
       <div>
         <p>

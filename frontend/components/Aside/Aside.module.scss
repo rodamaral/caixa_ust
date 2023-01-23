@@ -1,6 +1,9 @@
 .aside {
   border: 2px solid black;
   border-radius: 5px;
+  height: fit-content;
+  margin-top: 2em;
+  background-color: #a4c6ad;
 }
 
 ol li {
@@ -20,8 +23,9 @@ li {
   background-color: #b4d6bd;
   border-radius: 5px;
   padding: 4px;
+  border: 2px solid #333;
 }
 
 li a {
-  color: black;
+  color: #333;
 }

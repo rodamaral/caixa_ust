@@ -1,12 +1,26 @@
-import { NavLink } from 'react-router-dom'
-import { User } from 'shared/types'
+import { NavLink, useLocation } from 'react-router-dom'
+import { useAuthWithUser } from '~/AuthProvider'
 import styles from './Aside.module.scss'
 
-interface AsideProps {
-  permissions: User['permissions']
+const labels: Record<string, string> = {
+  relatorio: 'Relatório',
+  solicitacao: 'Solicitação UST',
+  macrocelula: 'Macrocélula',
 }
 
-export const Aside = ({ permissions }: AsideProps) => {
+export const Aside = () => {
+  const {
+    user: { permissions },
+  } = useAuthWithUser()
+  const location = useLocation()
+  // const params = useParams()
+  // console.log('location', location)
+  // console.log('params', params)
+
+  if (location.pathname === '/menu/solicitacao') {
+    return null
+  }
+
   return (
     <aside className={styles.aside}>
       <nav>
@@ -19,7 +33,7 @@ export const Aside = ({ permissions }: AsideProps) => {
                   isActive ? 'active' : isPending ? 'pending' : ''
                 }
               >
-                menu/{permission}
+                {labels[permission]}
               </NavLink>
             </li>
           ))}

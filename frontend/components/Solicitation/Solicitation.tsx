@@ -5,6 +5,7 @@ import { coordinations } from '../../../backend/constants'
 import { Activity, Cell, MONTHS, UstTableIds } from '../../../shared/types'
 import { SolicitationTable } from '../SolicitationTable'
 import { SaveDialog } from './SaveDialog'
+import styles from './Solicitation.module.scss'
 
 type MaybeNumber = number | undefined
 const calcUST = (
@@ -195,17 +196,14 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
   }
 
   return (
-    <form
-      style={{ border: '2px solid black' }}
-      onSubmit={(e) => e.preventDefault()}
-    >
-      <div>
-        <h2>Solicitação UST</h2>
+    <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+      <div className={styles.row}>
+        <h1>Solicitação UST</h1>
         <NavLink to={-1 as unknown as string}>Voltar</NavLink>
       </div>
 
-      <div>
-        <div>
+      <div className={styles.row}>
+        <div className={styles.box}>
           Mês/Ano
           <select name="month" onChange={onChangeMonth} value={month}>
             <option value="">Escolha uma opção</option>
@@ -217,7 +215,7 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
           </select>
         </div>
 
-        <div>
+        <div className={styles.box}>
           Coordenação
           <select
             name="coordination"
@@ -234,7 +232,7 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
           </select>
         </div>
 
-        <div>
+        <div className={styles.box}>
           Macrocélula
           <select
             name="macrocell"
@@ -251,7 +249,7 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
           </select>
         </div>
 
-        <div>
+        <div className={styles.box}>
           Célula
           <select
             name="cell"
@@ -269,8 +267,8 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
         </div>
       </div>
 
-      <div>
-        <div>
+      <div className={styles.row}>
+        <div className={styles.box}>
           Atividade
           <select
             name="activity-name"
@@ -286,20 +284,21 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
             ))}
           </select>
         </div>
-        <div>
+        <div className={styles.box}>
           Descrição Atividade
-          <p>{description}</p>
+          <div className={styles.description}>{description}</div>
         </div>
       </div>
 
-      <div>
-        <div>
+      <div className={styles.row}>
+        <div className={styles.box}>
           Complexidade
           <select
             name="complexity"
             onChange={onChangeComplexity}
             value={complexity}
             disabled={disabled}
+            className={styles.input}
           >
             <option value="">Escolha uma opção</option>
             <option value="Baixa">Baixa</option>
@@ -307,7 +306,7 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
             <option value="Alta">Alta</option>
           </select>
         </div>
-        <div>
+        <div className={styles.box}>
           Fator de ponderação
           <input
             type="number"
@@ -318,7 +317,7 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
             min={0}
           />
         </div>
-        <div>
+        <div className={styles.box}>
           Esforço (horas)
           <input
             type="number"
@@ -331,8 +330,8 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
         </div>
       </div>
 
-      <div>
-        <div>
+      <div className={styles.row}>
+        <div className={styles.box}>
           Simultaneidade
           <input
             type="number"
@@ -342,7 +341,7 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
             min={0}
           />
         </div>
-        <div>
+        <div className={styles.box}>
           Dias úteis
           <input
             type="number"
@@ -353,7 +352,7 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
             max={22}
           />
         </div>
-        <div>
+        <div className={styles.box}>
           Dias não úteis
           <input
             type="number"
@@ -366,14 +365,14 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
         </div>
       </div>
 
-      <div>
+      <div className={styles.row}>
         <button onClick={onInclude} disabled={!enableInclude}>
           Incluir
         </button>
         UST: {ust ?? 'a computar'}
       </div>
 
-      <div>
+      <div className={styles.row}>
         <SolicitationTable data={rowsComplete} />
       </div>
 
