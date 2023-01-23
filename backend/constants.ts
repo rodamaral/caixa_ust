@@ -5,3 +5,9 @@ export const coordinations = [
   'Coordenação2',
   'Coordenação3',
 ] as const
+
+export const permissions = {
+  solicitacao: 'solicitacao',
+  relatorio: 'relatorio',
+  macrocelula: 'macrocelula',
+} as const

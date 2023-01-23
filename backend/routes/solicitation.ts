@@ -1,8 +1,17 @@
 import { Router } from 'express'
 import { UstTableIds } from 'shared/types'
+import { permissions } from '../constants'
 import { knex } from '../database'
 
 const router = Router()
+
+router.use((req, res, next) => {
+  if (req.session.user?.permissions.includes(permissions.solicitacao)) {
+    next()
+  } else {
+    res.sendStatus(401)
+  }
+})
 
 router.get('/', async function (req, res) {
   try {
