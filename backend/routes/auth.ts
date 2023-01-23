@@ -36,19 +36,4 @@ router.post('/login', async function (req, res) {
   })
 })
 
-// TEST: register user
-// router.post('/login', async function (req, res) {
-//   const { username, password } = req.body
-
-//   const result = await pg('user').insert({
-//     name: username,
-//     permissions: [],
-//     password: hashPassword(password),
-//   })
-
-//   console.log('result', result)
-
-//   res.sendStatus(201)
-// })
-
 export const authRouter = router

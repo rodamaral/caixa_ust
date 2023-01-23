@@ -4,7 +4,6 @@ import { knex } from '../database'
 const router = Router()
 
 router.get('/', async function (req, res) {
-  // res.json(report)
   try {
     const solicitations = await knex('solicitation as s')
       .sum('ust as ust')
@@ -20,7 +19,6 @@ router.get('/', async function (req, res) {
       .select('coordination', 'month')
       .groupBy('coordination', 'month')
 
-    console.log(solicitations)
     res.json(solicitations)
   } catch (error) {
     console.error(error)

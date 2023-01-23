@@ -37,11 +37,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [fetching, setFetching] = useState(!!getCookie('authenticated'))
 
   useEffect(() => {
-    console.info(
-      'AuthProvider effect',
-      getCookie('authenticated'),
-      getCookie('name.subname')
-    )
     if (getCookie('authenticated')) {
       const onFetch = async () => {
         try {
@@ -65,7 +60,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signin = (newUser: User, callback: VoidFunction) => {
     return fakeAuthProvider.signin(() => {
-      console.log('signin', newUser)
       setUser(newUser)
       callback()
     })

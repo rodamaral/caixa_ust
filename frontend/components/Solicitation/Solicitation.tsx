@@ -140,7 +140,6 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
     console.log('simultaneity', simultaneity)
     console.log('workingDays', workingDays)
     console.log('nonWorkingDays', nonWorkingDays)
-    alert('incluir')
   }
 
   const onSave = () => {

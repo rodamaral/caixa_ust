@@ -7,7 +7,6 @@ import { PortalPage } from './pages/Portal.page'
 
 export function App() {
   const { user, fetching } = useAuth()
-  console.log({ user, fetching })
 
   // TODO: loading indicator
   if (fetching) {

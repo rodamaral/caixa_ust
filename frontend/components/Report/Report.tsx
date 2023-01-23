@@ -41,7 +41,6 @@ export const Report = ({ data }: ReportProps) => {
       })),
     [data2]
   )
-  console.log('dataWithTotals', dataWithTotals)
 
   return (
     <div style={{ border: '2px solid red' }}>

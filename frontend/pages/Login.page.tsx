@@ -32,9 +32,7 @@ export const LoginPage = () => {
       }
       console.log(res.ok)
       const json = await res.json()
-      console.log(json)
       if (json.success) {
-        console.log('success, replace')
         const { id, username: name, permissions } = json
         auth.signin({ id, name, permissions }, () => {
           // Send them back to the page they tried to visit when they were

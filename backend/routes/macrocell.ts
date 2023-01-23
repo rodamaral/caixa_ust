@@ -15,7 +15,6 @@ router.get('/', async function (req, res) {
         'cell.id as cellId',
         'cell.name as cellName',
       ])
-    // const foo = macrocells.console.log('macrocells', macrocells)
     res.json(macrocells)
   } catch (error) {
     console.error(error)
