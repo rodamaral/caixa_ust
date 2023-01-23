@@ -24,6 +24,7 @@ specifiers:
   eslint: ^8.32.0
   eslint-config-prettier: ^8.6.0
   eslint-plugin-react: ^7.32.1
+  eslint-plugin-react-hooks: ^4.6.0
   express: ^4.18.2
   express-session: ^1.17.3
   husky: '>=7'
@@ -82,6 +83,7 @@ devDependencies:
   eslint: 8.32.0
   eslint-config-prettier: 8.6.0_eslint@8.32.0
   eslint-plugin-react: 7.32.1_eslint@8.32.0
+  eslint-plugin-react-hooks: 4.6.0_eslint@8.32.0
   husky: 8.0.3
   jsdom: 21.0.0
   lint-staged: 13.1.0
@@ -2140,6 +2142,15 @@ packages:
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
+    dependencies:
+      eslint: 8.32.0
+    dev: true
+
+  /eslint-plugin-react-hooks/4.6.0_eslint@8.32.0:
+    resolution: {integrity: sha512-oFc7Itz9Qxh2x4gNHStv3BqJq54ExXmfC+a1NjAta66IAN87Wu0R/QArgIS9qKzX3dXKPI9H5crl9QchNMY9+g==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0
     dependencies:
       eslint: 8.32.0
     dev: true
