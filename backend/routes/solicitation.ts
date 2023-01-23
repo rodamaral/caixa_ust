@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { UstTableIds } from 'shared/types'
 import { knex } from '../database'
 
 const router = Router()
@@ -21,21 +22,18 @@ router.post('/', async function (req, res) {
   try {
     const { user } = req.session
     if (!user) throw new Error('user is not authenticated')
-    const { month, cellId, activityId, coordination, ust } = req.body
-
-    await knex('solicitation').insert(
-      [
-        {
-          month,
-          cell_id: cellId,
-          activity_id: activityId,
-          user_id: user.id,
-          coordination,
-          ust,
-        },
-      ],
-      ['id']
+    const insertArray = (req.body as UstTableIds[]).map(
+      ({ month, cell, activity, coordination, UST }) => ({
+        month,
+        cell_id: cell,
+        activity_id: activity,
+        user_id: user.id,
+        coordination,
+        ust: UST,
+      })
     )
+
+    await knex('solicitation').insert(insertArray, 'id')
     res.sendStatus(201)
   } catch (error) {
     console.error(error)

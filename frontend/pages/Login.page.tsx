@@ -30,7 +30,6 @@ export const LoginPage = () => {
         console.error(res)
         throw new Error('res not ok')
       }
-      console.log(res.ok)
       const json = await res.json()
       if (json.success) {
         const { id, username: name, permissions } = json

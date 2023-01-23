@@ -58,11 +58,6 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
 
   const disabled = month === undefined
 
-  // TEST
-  const selectedCellComplete = cells.find(({ cellId }) => cellId === cell)
-  console.log('comnplete sle cells', selectedCellComplete)
-
-  // array
   const rowsComplete = rows.map(({ cell, activity, ...rest }) => {
     const selectedCellComplete = cells.find(({ cellId }) => cellId === cell)
     const activityComplete = activities.find(({ id }) => id === activity)
@@ -172,19 +167,13 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          month,
-          cellId: 2,
-          activityId: activity,
-          coordination,
-          ust,
-        }),
+        body: JSON.stringify(rows),
       })
       if (!res.ok) {
         console.error(res)
         throw new Error('res not ok')
       }
-      console.log('success')
+      setRows([])
     } catch (error) {
       console.error(error)
     }
