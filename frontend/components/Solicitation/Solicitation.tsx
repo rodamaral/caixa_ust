@@ -55,6 +55,7 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
   const [simultaneity, setSimultaneity] = useState<number>()
   const [workingDays, setWorkingDays] = useState<number>()
   const [nonWorkingDays, setNonWorkingDays] = useState<number>()
+  const [loading, setLoading] = useState(false)
 
   const disabled = month === undefined
 
@@ -97,7 +98,7 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
   )
 
   const enableInclude =
-    activity && cell && coordination && month && ust && macrocell
+    activity && cell && coordination && month && ust && macrocell && !loading
 
   const onChangeMonth: ChangeEventHandler<HTMLSelectElement> = (e) => {
     setMonth(e.target.value || undefined)
@@ -162,6 +163,7 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
 
   const onSave = async () => {
     try {
+      setLoading(true)
       const res = await fetch('/api/solicitation', {
         method: 'POST',
         headers: {
@@ -174,14 +176,27 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
         throw new Error('res not ok')
       }
       setRows([])
+      setMonth(undefined)
+      setCoordination(undefined)
+      setMacrocell(undefined)
+      setCell(undefined)
+      setActivity(undefined)
+      setComplexity(undefined)
+      setWeighting(undefined)
+      setEffort(undefined)
+      setSimultaneity(undefined)
+      setWorkingDays(undefined)
+      setNonWorkingDays(undefined)
     } catch (error) {
       console.error(error)
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <form
-      style={{ border: '2px solid red' }}
+      style={{ border: '2px solid black' }}
       onSubmit={(e) => e.preventDefault()}
     >
       <div>
@@ -364,7 +379,7 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
 
       <div>
         <span>Total UST&apos;s: 560</span>
-        <SaveDialog disable={rows.length === 0} onSave={onSave} />
+        <SaveDialog disable={!loading && rows.length === 0} onSave={onSave} />
       </div>
     </form>
   )
