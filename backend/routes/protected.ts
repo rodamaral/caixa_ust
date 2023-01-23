@@ -6,13 +6,13 @@ import { solicitationRouter } from './solicitation'
 
 const router = Router()
 
-// router.use((req, res, next) => {
-//   if (req.session.user) {
-//     next()
-//   } else {
-//     res.sendStatus(401)
-//   }
-// })
+router.use((req, res, next) => {
+  if (req.session.user) {
+    next()
+  } else {
+    res.sendStatus(401)
+  }
+})
 
 router.use('/activity', activityRouter)
 router.use('/macrocell', macrocellRouter)
