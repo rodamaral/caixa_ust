@@ -70,6 +70,7 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
       activity: activityComplete?.name ?? '',
     }
   })
+  const totalUST = rowsComplete.reduce((acc, val) => acc + val.UST, 0)
 
   const macrocells = Object.values(
     cells.reduce((acc, val) => {
@@ -379,8 +380,8 @@ export const Solicitation = ({ activities, cells }: SolicitationProps) => {
         <SolicitationTable data={rowsComplete} />
       </div>
 
-      <div>
-        <span>Total UST&apos;s: 560</span>
+      <div className={styles.row}>
+        <span>Total UST&apos;s: {totalUST}</span>
         <SaveDialog disable={!loading && rows.length === 0} onSave={onSave} />
       </div>
     </form>
